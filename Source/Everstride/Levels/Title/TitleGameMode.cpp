@@ -13,6 +13,8 @@ ATitleGameMode::ATitleGameMode()
 
 void ATitleGameMode::BeginPlay()
 {
+	Super::BeginPlay();
+
 	// 게임 인스턴스를 얻어와 레벨타입 설정
 	UEverstrideGameInstance* GameInst = GetGameInstance<UEverstrideGameInstance>();
 	if (GameInst)

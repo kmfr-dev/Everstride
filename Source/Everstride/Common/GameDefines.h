@@ -30,6 +30,36 @@ enum class EMotionType : uint8
 };
 
 
+UENUM(BlueprintType)
+enum class EStatusType : uint8
+{
+	STATUSTYPE_NONE,
+
+
+};
+
+// 플레이어 스테이터스 정보
+USTRUCT(BlueprintType)
+struct FStatusData
+{
+	GENERATED_BODY()
+
+public:
+	FStatusData() {}
+	FStatusData(EStatusType _Type, float _Value) : Type(_Type), Value(_Value) {}
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EStatusType Type;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Value;
+
+	bool operator==(const EStatusType _Type) const
+	{
+		return this->Type == _Type;
+	}
+};
+
 
 
 UCLASS()

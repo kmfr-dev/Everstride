@@ -9,23 +9,25 @@ void UTableSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 
 	if (false == TableLoad())
 	{
-		
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("테이블 로드 실패..."));
 		return;
 	}
 }
 
 bool UTableSubsystem::TableLoad()
 {
+	// 각종 테이블을 모아놓은 TableLoad 테이블을 얻어온다.
 	UDataTable* TableLoadPath = TABLE_LOAD(FString(TEXT("/Game/DataTable/DT_TableLoad")));
 	if (nullptr == TableLoadPath)
 		return false;
 
 	bool Result = true;
 
+	// 모든 행 순회
 	TableLoadPath->ForeachRow<FTableLoadRow>
 		(TEXT("Not Found Table Row.."), [this, &Result](const FName& _Key, const FTableLoadRow& _Value)
 			{
-				// 해당 행의 로드 여부를 확인하고 맵에 추가
+				// 해당 행의 로드 여부를 확인하고 TMap에 추가
 				if (_Value.IsLoad)
 				{
 					UDataTable* LoadTable = TABLE_LOAD(_Value.TablePath);

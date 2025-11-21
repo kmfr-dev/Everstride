@@ -28,7 +28,7 @@ void UTitleMainWidget::NativeConstruct()
 void UTitleMainWidget::OnClickedGameStartBtn()
 {
 	// 인게임 레벨로 전환
-	//UGameplayStatics::OpenLevel(GetWorld(), FName("/Game/Levels/01_Title/Title.Title'"));
+	UGameplayStatics::OpenLevel(this, "/Game/Level/InGame");
 }
 
 void UTitleMainWidget::OnClickedExitBtn()
