@@ -66,6 +66,14 @@ void UUISubsystem::ClearMainWidget()
 	}
 }
 
+UUserWidget* UUISubsystem::GetMainWidget()
+{
+	if (IsValid(mCurrentMainWidget))
+		return mCurrentMainWidget;
+
+	return nullptr;
+}
+
 UUISubsystem* UUISubsystem::Get(const UObject* _WorldContext)
 {
 	if (nullptr == _WorldContext)

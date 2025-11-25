@@ -1,11 +1,13 @@
 #include "CharacterBase.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Animation/AnimInstanceBase.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputAction.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "Animation/AnimInstanceBase.h"
+#include "InGamePlayerState.h"
 #include "../Input/PlayerInputSystem.h"
 #include "../Subsystem/TableSubsystem.h"
+#include "Component/StatComponent.h"
 
 ACharacterBase::ACharacterBase()
 {
@@ -13,6 +15,9 @@ ACharacterBase::ACharacterBase()
 
 	mArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	mCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	mStatComponent = CreateDefaultSubobject<UStatComponent>(TEXT("Status"));
+
+
 	// 카메라가 컨트롤러의 회전을 따라가게 설정한다.
 	mArm->bUsePawnControlRotation = true;
 	mArm->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform);
@@ -27,7 +32,6 @@ ACharacterBase::ACharacterBase()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
 
-
 	// 캐릭터가 이동하는 방향을 바라보도록 설정
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->bUseControllerDesiredRotation = false;
@@ -40,8 +44,6 @@ void ACharacterBase::BeginPlay()
 	Super::BeginPlay();
 	
 	DefaultSetting();
-
-	InitCamera();
 }
 
 void ACharacterBase::Tick(float DeltaTime)
@@ -78,17 +80,30 @@ void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 void ACharacterBase::DefaultSetting()
 {
+	InitMesh();
+
+	InitCamera();
+
+	InitMovement();
+}
+
+void ACharacterBase::InitMesh()
+{
+	//기본 테이블 서브시스템을 불러옴
 	UTableSubsystem* TableSub = UTableSubsystem::Get(this);
 	if (nullptr == TableSub)
 		return;
 
-	// DefineTable에 정의된 기본 플레이어 행을 얻어온다.
-	FDefineTableRow* DefineRow = TableSub->FindTableRow<FDefineTableRow>(UTableData::TableName::DEFINE, UTableData::DefineName::DEFAULT_PLAYER);
-	if (nullptr == DefineRow)
+	// 플레이어 스테이트를 얻어온다.
+	AInGamePlayerState* PlayerStatePtr = GetPlayerState<AInGamePlayerState>();
+	if (nullptr == PlayerStatePtr)
 		return;
 
+	// 플레이어 TID를 얻어온다.
+	FName PlayerTID = PlayerStatePtr->GetPlayerTID();
+
 	// 플레이어 테이블 조회
-	FPlayerTableRow* PlayerTable = TableSub->FindTableRow<FPlayerTableRow>(UTableData::TableName::PLAYER, FName(DefineRow->StrVal));
+	FPlayerTableRow* PlayerTable = TableSub->FindTableRow<FPlayerTableRow>(UTableData::TableName::PLAYER, PlayerTID);
 	if (nullptr == PlayerTable)
 		return;
 
@@ -120,7 +135,7 @@ void ACharacterBase::InitCamera()
 	if (nullptr == ArmRow)
 		return;
 
-	// 카메라암 테이블 행에 정의된 값으로 카메라암 세팅
+	// ===== 카메라암 테이블 행에 정의된 값으로 카메라암 세팅 =====
 	mArm->TargetArmLength = (ArmRow->MaxLength + ArmRow->MinLength) / 2;
 	mArm->SetRelativeLocation(ArmRow->Location);
 	mArm->SetRelativeRotation(ArmRow->Rotation);
@@ -136,6 +151,21 @@ void ACharacterBase::InitCamera()
 	mArm->bEnableCameraLag = ArmRow->CameraLagEnable;
 	mArm->CameraLagSpeed = ArmRow->CameraLagSpeed;
 	mArm->CameraRotationLagSpeed = ArmRow->CameraRotationLagSpeed;
+	// ============================================================
+}
+
+void ACharacterBase::InitMovement()
+{
+	UCharacterMovementComponent* MovementComp = GetCharacterMovement();
+	if (nullptr == MovementComp || false == IsValid(mStatComponent))
+		return;
+
+	// 능력치 컴포넌트에서 이동속도 값을 얻어온다.
+	float BaseMoveSpeed = mStatComponent->GetStatValue
+	(EStatusType::STATTYPE_SPEED, EStatusCategory::STATCATEGORY_BASE);
+
+	// 기본 이동속도값 설정
+	MovementComp->MaxWalkSpeed = BaseMoveSpeed;
 }
 
 void ACharacterBase::MoveAction(const FInputActionValue& _InputActionValue)
@@ -174,5 +204,13 @@ void ACharacterBase::CameraRotationAction(const FInputActionValue& _InputActionV
 	CurrentControlRot.Pitch = FMath::Clamp(NewPitch, -80.f, 30.f);
 
 	Controller->SetControlRotation(CurrentControlRot);
+}
+
+UStatComponent* ACharacterBase::GetStatComponent()
+{
+	if (IsValid(mStatComponent))
+		return mStatComponent;
+
+	return nullptr;
 }
 

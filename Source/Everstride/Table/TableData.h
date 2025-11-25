@@ -32,7 +32,7 @@ struct FAnimationTableRow : public FTableRowBase
 	FAnimationTableRow() {}
 	~FAnimationTableRow() {}
 
-	//사용할 애니메이션인스턴스
+	//사용할 애님 인스턴스 클래스
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UAnimInstance> Animation = nullptr;
 
@@ -114,9 +114,9 @@ struct FPlayerTableRow : public FTableRowBase
 	FPlayerTableRow() {}
 	~FPlayerTableRow() {}
 
-	////플레이어가 기본으로 사용할 능력치
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//TArray<FStatusData> Status;
+	// 플레이어가 기본으로 사용할 능력치
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FDefaultStatData> Status;
 
 	// 플레이어가 사용 할 충돌TID
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

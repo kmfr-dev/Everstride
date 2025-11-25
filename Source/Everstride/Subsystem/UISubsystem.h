@@ -30,5 +30,10 @@ public:
 	void ClearMainWidget();
 
 public:
+	UFUNCTION()
+	UUserWidget* GetMainWidget();
+
+
+public:
 	static UUISubsystem* Get(const UObject* _WorldContext);
 };

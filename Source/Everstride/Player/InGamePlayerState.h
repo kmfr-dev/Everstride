@@ -14,4 +14,13 @@ class EVERSTRIDE_API AInGamePlayerState : public APlayerState
 {
 	GENERATED_BODY()
 	
+private:
+	UPROPERTY()
+	FName mPlayerTID;
+
+protected:
+	virtual void BeginPlay() override;
+	
+public:
+	FName& GetPlayerTID() { return mPlayerTID; }
 };
