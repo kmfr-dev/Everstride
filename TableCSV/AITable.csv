@@ -1,0 +1,2 @@
+---,Tree,Board,SightRadius,LoseSightRadius,PeripheralVisionAngleDegrees,bDetectEnemies,bDetectFriendlies,bDetectNeutrals
+7001,"/Script/AIModule.BehaviorTree'/Game/Monster/AI/BT_NormalMonsterTree.BT_NormalMonsterTree'","/Script/AIModule.BlackboardData'/Game/Monster/AI/BT_DefaultBlackBoard.BT_DefaultBlackBoard'","1200.000000","1422.489624","45.000000","True","False","False"

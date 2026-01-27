@@ -25,6 +25,12 @@ public:
 	void SetMainWidget();
 
 public:
+	UFUNCTION()
+	void ShowMainWidget();
+
+	UFUNCTION()
+	void HideMainWidget();
+
 	// 메인 위젯 제거 함수
 	UFUNCTION()
 	void ClearMainWidget();

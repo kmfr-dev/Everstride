@@ -1,0 +1,4 @@
+---,MonsterName,NormalAttackClass,StatTID,MonsterClass,SkeletalMeshTID,AnimationTID,AbilityTID,AITID,CollisionTID,SkilITID,TagTID,TeamID
+2001,"Minion","/Script/CoreUObject.Class'/Script/Everstride.NormalAttackBasic'","11002","/Script/CoreUObject.Class'/Script/Everstride.MonsterBase'","3002","4002","None","7001","5002","None","6002","1"
+2002,"None","/Script/Engine.BlueprintGeneratedClass'/Game/Actors/Attack/BP_RangedAttack.BP_RangedAttack_C'","11003","/Script/CoreUObject.Class'/Script/Everstride.MonsterBase'","3003","4003","None","7002","5002","None","6002","1"
+2003,"Rampage","/Script/CoreUObject.Class'/Script/Everstride.NormalAttackBasic'","11004","/Script/Engine.BlueprintGeneratedClass'/Game/Actors/Monster/BP_BossMonster.BP_BossMonster_C'","3004","4004","None","7003","5002","None","6003","1"

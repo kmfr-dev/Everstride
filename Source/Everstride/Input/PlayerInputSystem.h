@@ -30,8 +30,46 @@ private:
 	UPROPERTY()
 	TObjectPtr<class UInputAction> mCameraRotAction;
 
+	// 달리기 액션
+	UPROPERTY()
+	TObjectPtr<class UInputAction> mSprintAction;
+
+	// 점프 액션
+	UPROPERTY()
+	TObjectPtr<class UInputAction> mJumpAction;
+
+	// 공격 액션
+	UPROPERTY()
+	TObjectPtr<class UInputAction> mAttackAction;
+
+	UPROPERTY()
+	TObjectPtr<class UInputAction> mSlashSkillAction;
+
+	UPROPERTY()
+	TObjectPtr<class UInputAction> mDodgeSkillAction;
+
 public:
+	UFUNCTION()
 	class UInputMappingContext* GetContext();
-	class UInputAction* GetMoveAction();
-	class UInputAction* GetCameraRotAction();
+	
+	UFUNCTION()
+	class UInputAction*			GetMoveAction();
+	
+	UFUNCTION()
+	class UInputAction*			GetCameraRotAction();
+
+	UFUNCTION()
+	class UInputAction*			GetSprintAction();
+
+	UFUNCTION()
+	class UInputAction*			GetAttackAction();
+
+	UFUNCTION()
+	class UInputAction*			GetJumpAction();
+	
+	UFUNCTION()
+	class UInputAction*			GetSlashSkillAction();	
+	
+	UFUNCTION()
+	class UInputAction*			GetDodgeSkillAction();
 };

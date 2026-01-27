@@ -1,0 +1,2 @@
+---,MaxLength,MinLength,Rotation,Location,bInheritPitch,bInheritYaw,bInheritRoll,CameraLagEnable,CameraLagSpeed,CameraRotationLagSpeed,ProveSize
+10001,"500.000000","100.000000","(Pitch=-90.000000,Yaw=0.000000,Roll=0.000000)","(X=0.000000,Y=0.000000,Z=90.000000)","True","True","True","True","10.000000","0.000000","15.000000"

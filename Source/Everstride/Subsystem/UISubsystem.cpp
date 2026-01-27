@@ -23,7 +23,7 @@ void UUISubsystem::SetMainWidget()
 	UTableSubsystem* TableSub = UTableSubsystem::Get(this);
 	if (nullptr == TableSub)
 		return;
-
+	
 	FName MainWidgetName;
 
 	// 레벨 타입에 따라 메인위젯 이름 설정
@@ -55,6 +55,22 @@ void UUISubsystem::SetMainWidget()
 	{
 		mCurrentMainWidget->AddToViewport();
 	}
+}
+
+void UUISubsystem::ShowMainWidget()
+{
+	if (false == IsValid(mCurrentMainWidget))
+		return;
+
+	mCurrentMainWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
+}
+
+void UUISubsystem::HideMainWidget()
+{
+	if (false == IsValid(mCurrentMainWidget))
+		return;
+
+	mCurrentMainWidget->SetVisibility(ESlateVisibility::Collapsed);
 }
 
 void UUISubsystem::ClearMainWidget()

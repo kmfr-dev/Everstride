@@ -3,6 +3,9 @@
 #pragma once
 
 #include "../Common/GameDefines.h"
+#include "../Actors/Monster/MonsterBase.h"
+#include "../Attack/AttackBase.h"
+#include "BehaviorTree/BehaviorTree.h"
 #include "TableData.generated.h"
 
 
@@ -36,13 +39,9 @@ struct FAnimationTableRow : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UAnimInstance> Animation = nullptr;
 
-	//시퀀스
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<EMotionType, TObjectPtr<UAnimSequence>> AnimMap;
-
 	//몽타주
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<EMontageType, TObjectPtr<UAnimMontage>> MontageMap;
+	TMap<FGameplayTag, TObjectPtr<UAnimMontage>> MontageMap;
 };
 
 // 메인 위젯 테이블
@@ -114,9 +113,11 @@ struct FPlayerTableRow : public FTableRowBase
 	FPlayerTableRow() {}
 	~FPlayerTableRow() {}
 
-	// 플레이어가 기본으로 사용할 능력치
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FDefaultStatData> Status;
+	TSubclassOf<UAttackBase> NormalAttackClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName StatTID;
 
 	// 플레이어가 사용 할 충돌TID
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -124,7 +125,7 @@ struct FPlayerTableRow : public FTableRowBase
 
 	//플레이어가 사용 할 스킬TID
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FName SkillTID;
+	TArray<FName> SkillTIDs;
 
 	//플레이어가 사용 할 스켈레탈 메쉬
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -133,48 +134,168 @@ struct FPlayerTableRow : public FTableRowBase
 	//플레이어가 기본으로 사용할 애니메이션
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FName AnimationTID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName TagTID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 TeamID;
+};
+
+USTRUCT(BlueprintType)
+struct FStatTableRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	// 기본으로 사용할 능력치
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FDefaultStatData> Status;
+};
+
+USTRUCT(BlueprintType)
+struct FMapTableRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	FMapTableRow() {}
+	~FMapTableRow() {}
+
+	// 맵에 스폰시킬 TID, 몬스터 여러개가 될 수도있으니 배열로 관리
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FName> SpawnTIDs;
+};
+
+USTRUCT(BlueprintType)
+struct FSpawnTableRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	FSpawnTableRow() {}
+	~FSpawnTableRow() {}
+
+	// 스폰할 오브젝트의 테이블 ID, 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName SpawnObjectTID;
+
+	// 스폰 위치
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector SpawnPosition;
+	
+	// 스폰 회전
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FRotator SpawnRotation;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 SpawnCount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float SpawnInterval;
+};
+
+USTRUCT(BlueprintType)
+struct FMonsterTableRow : public FTableRowBase
+{
+	GENERATED_BODY()
+	
+	FMonsterTableRow() {}
+	~FMonsterTableRow() {}
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName MonsterName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UAttackBase> NormalAttackClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName StatTID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<AMonsterBase> MonsterClass = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName SkeletalMeshTID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName AnimationTID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName AITID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName CollisionTID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FName> SkilITIDs;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName TagTID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 TeamID = -1;
 };
 
 
-//USTRUCT(BlueprintType)
-//struct FSkillDataTableRow : public FTableRowBase
-//{
-//	GENERATED_BODY()
-//
-//	FSkillDataTableRow() {}
-//	~FSkillDataTableRow() {}
-//
-//	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-//	FName SkillName;
-//
-//	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-//	ESkillType SkillType;
-//
-//	// 패시브, 버프 스킬로 인한 스탯 증가 시 사용
-//	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-//	TArray<FStatusData> SkillStatBoost;
-//
-//	//// 패시브 스킬의 경우 소지할 아이템의 TID 배열
-//	//TArray<FName> GetItemTIDs;
-//
-//	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-//	float SkillCoolTime;
-//
-//	// 스킬 지속시간 or 증가량 
-//	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-//	float SkillDuration;
-//
-//	// 스킬 UI TID
-//	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-//	FName SkillViewTID;
-//
-//	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-//	TSubclassOf<class ASKillBase> SkillClass;
-//
-//	// 나이아가라 이펙트 에셋
-//	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-//	TObjectPtr<class UNiagaraSystem> SkillEffect;
-//};
+USTRUCT(BlueprintType)
+struct FSkillTableRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	FSkillTableRow() {}
+	~FSkillTableRow() {}
+
+	// 스킬이름
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName SkillName = NAME_None; 
+
+	// 스킬 즉발인지, 특정 타이밍에 사용할건지
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ESkillActionType SkillActionType = ESkillActionType::SKILLACTION_TYPE_NONE;
+
+	// 특정 타이밍에 스킬 종료를 할 것인지 로직으로 제어할 것 인지.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool SkillEndByLogic = false;
+
+	// 스킬 풀링할건지 풀링 안할건지
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ESkillPoolingType SkillPoolType = ESkillPoolingType::SKILLPOLLING_TYPE_NONE;
+
+	// 스킬 클래스
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<class ASkillBase> SkillClass;
+	
+	// 스킬 태그
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FGameplayTag SkillTag = FGameplayTag::EmptyTag;
+
+	// 스킬 이미지 텍스처 테이블 ID
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName TextureTID = NAME_None;
+
+	// 스킬 Value (ex: 데미지, 버프면 증가량 등)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Value = 0.f;
+
+	// 스킬 최소거리
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MinRange = 0.f;
+
+	// 스킬 최대거리
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MaxRange = 0.f;
+
+	// 쿨타임
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float CoolDown = 0.f;
+
+	// 스킬 지속시간, 시전시간
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float CastTime = 0.f;
+
+	// 스킬의 자원 소모량
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float SkillCost = 0.f;
+};
 
 // 충돌 테이블
 USTRUCT(BlueprintType)
@@ -191,7 +312,7 @@ struct FCollisionTableRow : public FTableRowBase
 
 	//충돌 채널이름
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 Channel;
+	int32 Channel = -1;
 };
 
 USTRUCT(BlueprintType)
@@ -236,6 +357,86 @@ struct FCameraArmTableRow : public FTableRowBase
 	float ProveSize = 0.f;
 };
 
+USTRUCT(BlueprintType)
+struct FAITableRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	// 비헤이비어 트리 에셋
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UBehaviorTree* Tree = nullptr;
+
+	// 블랙보드 에셋
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UBlackboardData* Board = nullptr;
+
+	// AI Perception
+	// 몬스터가 시야를 통해 적을 감지할 수 있는 최대거리
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float SightRadius = 0.f;
+
+	// 몬스터가 시야에서 대상을 놓치게 되는 거리
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float LoseSightRadius = 0.f;
+
+	// 몬스터의 시야각도 (원뿔형태)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float PeripheralVisionAngleDegrees = 0.f;
+
+	// 몬스터가 적을 감지할지에 대한 여부
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bDetectEnemies = false;
+
+	// 몬스터가 아군을 감지할지에대한 여부
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bDetectFriendlies = false;
+
+	// 적,아군 제외한 대상도 감지할지에대한 여부
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bDetectNeutrals = false;
+};
+
+// 태그 관련 테이블
+USTRUCT(BlueprintType)
+struct FTagTableRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	// 태그가 여러개일 경우를 대비해 배열로 선언
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FName> Tags;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UCharacterActionTag> ActionTagData;
+};
+
+USTRUCT(BlueprintType)
+struct FCameraShakeRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	// 실제 카메라 쉐이크 에셋
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UCameraShakeBase> ShakeClass;
+
+	// 기본 강도
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Scale = 1.0f;
+
+	// 연속 재생 방지용
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Cooldown = 0.1f;
+};
+
+USTRUCT(BlueprintType)
+struct FTextureTableRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UTexture2D* Texture = nullptr;
+};
+
 UCLASS()
 class EVERSTRIDE_API UTableData : public UObject
 {
@@ -245,12 +446,21 @@ public:
 	class TableName
 	{
 	public:
+		static const FName MAP;
 		static const FName MAINWIDGET;
 		static const FName PLAYER;
+		static const FName MONSTER;
 		static const FName SKELETALMESH;
+		static const FName SPAWN;
+		static const FName STAT;
+		static const FName SKILL;
 		static const FName ANIMATION;
+		static const FName AI;
 		static const FName CAMERA_ARM;
+		static const FName CAMERA_SHAKE;
 		static const FName COLLISION;
+		static const FName TAG;
+		static const FName TEXTURE;
 		static const FName DEFINE;
 	};
 
@@ -259,6 +469,9 @@ public:
 	public:
 		static const FName DEFAULT_PLAYER;
 		static const FName CAMERA_ARM;
+		static const FName SPRINT_ARMLENGTH;
+		static const FName JUMPTHRESHOLD;
+		static const FName RUNTHRESHOLD;
 	};
 
 	class MainWidgetName

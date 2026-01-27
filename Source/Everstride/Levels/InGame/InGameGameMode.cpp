@@ -2,14 +2,14 @@
 
 
 #include "InGameGameMode.h"
-#include "../../Player/CharacterBase.h"
-#include "../../Player/InGamePlayerState.h"
+#include "../../Actors/Player/PlayerBase.h"
+#include "../../Actors/Player/InGamePlayerState.h"
 #include "../../Input/InGamePlayerController.h"
 #include "../../EverstrideGameInstance.h"
 
 AInGameGameMode::AInGameGameMode()
 {
-	DefaultPawnClass = ACharacterBase::StaticClass();
+	DefaultPawnClass = APlayerBase::StaticClass();
 	PlayerControllerClass = AInGamePlayerController::StaticClass();
 	PlayerStateClass = AInGamePlayerState::StaticClass();
 	SpectatorClass = nullptr;

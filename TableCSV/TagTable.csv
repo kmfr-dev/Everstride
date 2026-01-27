@@ -1,0 +1,4 @@
+---,Tags,ActionTagData
+6001,"(""Player"")","/Script/Everstride.CharacterActionTag'/Game/DataAsset/DA_PlayerActionTag.DA_PlayerActionTag'"
+6002,"(""Monster"")","/Script/Everstride.CharacterActionTag'/Game/DataAsset/DA_NearingMonsterActionTag.DA_NearingMonsterActionTag'"
+6003,"(""Monster"",""Boss"")","/Script/Everstride.CharacterActionTag'/Game/DataAsset/DA_NearingMonsterActionTag.DA_NearingMonsterActionTag'"

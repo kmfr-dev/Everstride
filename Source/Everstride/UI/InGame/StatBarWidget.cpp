@@ -14,7 +14,7 @@ void UStatBarWidget::SetStatPercent(float _NewPercent)
 void UStatBarWidget::SetCurrentStatText(float _StatValue)
 {
 	if (IsValid(mCurStatText))
-		mCurStatText->SetText(FText::AsNumber(_StatValue * 100));
+		mCurStatText->SetText(FText::AsNumber(_StatValue));
 }
 
 void UStatBarWidget::SetMaxStatText(float _StatValue)

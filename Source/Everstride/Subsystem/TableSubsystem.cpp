@@ -9,7 +9,7 @@ void UTableSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 
 	if (false == TableLoad())
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("테이블 로드 실패..."));
+		//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("테이블 로드 실패..."));
 		return;
 	}
 }

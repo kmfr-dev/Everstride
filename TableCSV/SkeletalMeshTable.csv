@@ -1,0 +1,5 @@
+---,SkeletalMesh,MeshLocation,MeshRotation
+3001,"/Script/Engine.SkeletalMesh'/Game/Asset/Character/Dark_Knight/Meshes/SKM_DKM_Full.SKM_DKM_Full'","(X=0.000000,Y=0.000000,Z=-90.000000)","(Pitch=0.000000,Yaw=-90.000000,Roll=0.000000)"
+3002,"/Script/Engine.SkeletalMesh'/Game/Asset/Monster/ParagonMinions/Characters/Minions/White_Camp_Minion/Meshes/Minion_melee.Minion_melee'","(X=0.000000,Y=0.000000,Z=-90.000000)","(Pitch=0.000000,Yaw=-90.000000,Roll=0.000000)"
+3003,"/Script/Engine.SkeletalMesh'/Game/Asset/Monster/ParagonMinions/Characters/Minions/Down_Minions/Meshes/Minion_Lane_Siege_Core_Dawn.Minion_Lane_Siege_Core_Dawn'","(X=0.000000,Y=0.000000,Z=-90.000000)","(Pitch=0.000000,Yaw=-90.000000,Roll=0.000000)"
+3004,"/Script/Engine.SkeletalMesh'/Game/Asset/Monster/ParagonRampage/Characters/Heroes/Rampage/Skins/Tier2/Elemental/Meshes/Rampage_Elemental.Rampage_Elemental'","(X=0.000000,Y=0.000000,Z=-90.000000)","(Pitch=0.000000,Yaw=-90.000000,Roll=0.000000)"
