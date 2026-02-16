@@ -8,6 +8,7 @@
 - 게임 장르 : 액션 RPG
 - 개발 기간 : 2025년 11월 29일 ~ 2025년 12월 27일
 - 개발 인원 : 1명
+- 기술 스택 : C++, Unreal Engine
 - 엔진 버전 : Unreal Engine 5.6
 # Video
 [![Video Label](http://img.youtube.com/vi/LxVcmKPTEDY/0.jpg)](https://www.youtube.com/watch?v=LxVcmKPTEDY)
