@@ -10,5 +10,5 @@
 - 개발 인원 : 1명
 - 엔진 버전 : Unreal Engine 5.6
 # Video
-[![Video Label](http://img.youtube.com/vi/1Wwyw5aYZoU/0.jpg)](https://youtu.be/LxVcmKPTEDY?si=wKgZtBk5PZ_NgALl)
+[![Video Label](http://img.youtube.com/vi/LxVcmKPTEDY/0.jpg)](https://www.youtube.com/watch?v=LxVcmKPTEDY)
 ---
